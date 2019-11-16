@@ -4,9 +4,6 @@ import { NgModule } from '@angular/core';
 //Rutas
 import { AppRoutingModule } from './app-routing.module';
 
-//Modulos
-import { PagesModule } from './pages/pages.module';
-
 //Componentes
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -16,20 +13,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import { ServiceModule } from './services/service.module';
+import { PagesComponent } from './pages/pages.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    PagesComponent
   ],
   imports: [
     BrowserModule,
-    PagesModule,
     AppRoutingModule,   
     FormsModule,
+    ReactiveFormsModule,
     ServiceModule,
-    ReactiveFormsModule
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
