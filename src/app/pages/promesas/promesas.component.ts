@@ -3,45 +3,50 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-promesas',
   templateUrl: './promesas.component.html',
-  styles: []
+  styles: [
+  ]
 })
 export class PromesasComponent implements OnInit {
 
-  constructor() {
-    
+  constructor() { }
 
+  ngOnInit(): void {
 
-    this.contarTres().then( 
-      mensaje => console.log("Termino", mensaje),          
-    )
-    .catch( error => {
-      console.log("Error", error);      
+    this.getUsuarios().then( usuarios => {
+      console.log(usuarios);
     })
 
+  
 
-   }
+    // const promesa = new Promise( ( resolve, reject ) => {
 
-  ngOnInit() {
+    //   if ( false ) {
+    //     resolve('Hola Mundo');
+    //   } else {
+    //     reject('Algo salio mal');
+    //   }
+
+
+    // });
+
+    // promesa
+    //   .then( (mensaje) => {
+    //     console.log( mensaje );
+    //   })
+    //   .catch( error => console.log('Error en mi promesa', error ) );
+
+    // console.log('Fin del Init');
+
   }
 
-  contarTres(): Promise<boolean> {
+  getUsuarios() {
 
-    return new Promise( (resolve, reject) => {
+    return new Promise( resolve => {
 
-      let contador = 0;
+      fetch('https://reqres.in/api/users')
+        .then( resp => resp.json() )
+        .then( body => resolve( body.data ) );
 
-      let intervalo = setInterval( () => {
-
-        contador += 1;
-        console.log(contador);
-        
-        if (contador === 3) {
-          resolve(true);
-          // reject('Error inyectado');
-          clearInterval( intervalo )
-        }
-      }, 1000);
-      
     });
 
   }

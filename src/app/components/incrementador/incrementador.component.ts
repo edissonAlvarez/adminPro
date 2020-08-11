@@ -1,59 +1,52 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-incrementador',
   templateUrl: './incrementador.component.html',
-  styles: []
+  styles: [
+  ]
 })
 export class IncrementadorComponent implements OnInit {
 
-  @ViewChild('txtProgress', null) txtProgress: ElementRef ;
-  @Input('nombre') leyenda: string = 'Leyenda';
-  @Input() progreso: number = 50;
-
-  @Output() cambioValor: EventEmitter<number> = new EventEmitter();
-
-
-  constructor() { }
-
   ngOnInit() {
+    this.btnClass = `btn ${ this.btnClass }`;
   }
 
-  onChanges( newValue: number ) {
+  @Input('valor') progreso: number = 40;
+  @Input() btnClass: string = 'btn-primary';
 
-    // let elemHtml: any = document.getElementsByName('progreso')[0];
-  
-    if ( newValue >= 100 ){
-      this.progreso = 100;
-    } else if ( newValue <= 0) {
-      this.progreso = 0;
-    } else {
-      this.progreso = newValue;
+
+  @Output('valor') valorSalida: EventEmitter<number> = new EventEmitter();
+
+  cambiarValor( valor: number ) {
+
+    if ( this.progreso >= 100 && valor >= 0 ) {
+      this.valorSalida.emit(100);
+      return this.progreso = 100;
     }
 
-    // elemHtml.value = this.progreso ;
-    this.txtProgress.nativeElement.value = this.progreso ;
-
-    this.cambioValor.emit( this.progreso );
-
-    
-    
-  }
-  
-  cambiarValor( valor ) {
-    this.txtProgress.nativeElement.focus();
-
-    if( this.progreso >= 100 && valor >0 ) {
-      this.progreso = 100;
-      return;
-    }
-
-    if( this.progreso <= 0 && valor < 0 ) {
-      this.progreso = 0;
-      return;
+    if ( this.progreso <= 0 && valor < 0 ) {
+      this.valorSalida.emit(0);
+      return this.progreso = 0;
     }
 
     this.progreso = this.progreso + valor;
-    this.cambioValor.emit( this.progreso );
+    this.valorSalida.emit( this.progreso );
+  }
+
+  onChange( nuevoValor: number ){
+    
+    if( nuevoValor >= 100 ) {
+      this.progreso = 100;
+    } else if ( nuevoValor <= 0 ) {
+      this.progreso = 0;
+    } else {
+      this.progreso = nuevoValor;
+    }
+
+    
+
+    this.valorSalida.emit( this.progreso );
   }
 
 }
